@@ -11,6 +11,7 @@ import org.apache.catalina.startup.Tomcat;
 
 import br.com.ehmf.webframework.annotations.WebframeworkGetMethod;
 import br.com.ehmf.webframework.annotations.WebframeworkPostMethod;
+import br.com.ehmf.webframework.annotations.WebframeworkPutMethod;
 import br.com.ehmf.webframework.datastructures.ControllerMap;
 import br.com.ehmf.webframework.datastructures.MethodParam;
 import br.com.ehmf.webframework.datastructures.RequestControllerData;
@@ -133,6 +134,18 @@ public class WebFrameworkWebApplication {
 						.equals("br.com.ehmf.webframework.annotations.WebframeworkPostMethod")) {
 					httpMethod = "POST";
 					path = ((WebframeworkPostMethod)annotation).value();
+					
+					//verificar se existe parâmetro no path.
+					MethodParam methodParam = WebFrameworkUtil.convertURI2MethodParam(path);
+					if(methodParam != null) {
+						path = methodParam.getMethod();
+						if(methodParam.getParam() != null)
+							parameter = methodParam.getParam(); 
+					}
+				}else if(annotation.annotationType().getName()
+						.equals("br.com.ehmf.webframework.annotations.WebframeworkPutMethod")) {
+					httpMethod = "PUT";
+					path = ((WebframeworkPutMethod)annotation).value();
 					
 					//verificar se existe parâmetro no path.
 					MethodParam methodParam = WebFrameworkUtil.convertURI2MethodParam(path);

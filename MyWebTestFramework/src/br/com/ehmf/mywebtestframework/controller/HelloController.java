@@ -8,6 +8,7 @@ import br.com.ehmf.webframework.annotations.WebframeworkGetMethod;
 import br.com.ehmf.webframework.annotations.WebframeworkInject;
 import br.com.ehmf.webframework.annotations.WebframeworkPathVariable;
 import br.com.ehmf.webframework.annotations.WebframeworkPostMethod;
+import br.com.ehmf.webframework.annotations.WebframeworkPutMethod;
 
 @WebframeworkController
 public class HelloController {
@@ -48,5 +49,10 @@ public class HelloController {
 		return "Retornando o valor de parametro: " + valor;
 	}
 
-	
+	//http://localhost:8080/retornavalor/OI == Retornando o valor de parametro: 22222
+	@WebframeworkPutMethod("/testeput/{valor}")
+	public String testePut(@WebframeworkPathVariable Double valor) {
+		return "Retornando o valor de parametro: " + valor;
+	}
+
 }

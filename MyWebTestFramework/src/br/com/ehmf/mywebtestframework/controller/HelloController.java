@@ -4,6 +4,7 @@ import br.com.ehmf.mywebtestframework.model.Produto;
 import br.com.ehmf.mywebtestframework.service.IService;
 import br.com.ehmf.webframework.annotations.WebframeworkBody;
 import br.com.ehmf.webframework.annotations.WebframeworkController;
+import br.com.ehmf.webframework.annotations.WebframeworkDeleteMethod;
 import br.com.ehmf.webframework.annotations.WebframeworkGetMethod;
 import br.com.ehmf.webframework.annotations.WebframeworkInject;
 import br.com.ehmf.webframework.annotations.WebframeworkPathVariable;
@@ -49,10 +50,20 @@ public class HelloController {
 		return "Retornando o valor de parametro: " + valor;
 	}
 
-	//http://localhost:8080/retornavalor/OI == Retornando o valor de parametro: 22222
-	@WebframeworkPutMethod("/testeput/{valor}")
-	public String testePut(@WebframeworkPathVariable Double valor) {
-		return "Retornando o valor de parametro: " + valor;
+	//http://localhost:8080//testeput/22222 == Retornando o valor de parametro: 22222
+	@WebframeworkPutMethod("/testeput")
+	public String testePut(@WebframeworkBody Produto produtoNovo) {
+		return iService.criarProduto(produtoNovo);
 	}
 
+	//http://localhost:8080/testedelete/OI == Retornando o valor de parametro: 22222
+	@WebframeworkDeleteMethod("/testedelete/{valor}")
+	public String testeDelete(@WebframeworkPathVariable int valor) {
+		return iService.excluirProduto(valor);
+	}
+	
+	@WebframeworkGetMethod("/produtos")
+	public String listarProduto() {
+		return iService.listarProduto();
+	}
 }

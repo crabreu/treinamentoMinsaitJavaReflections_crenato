@@ -9,6 +9,7 @@ import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
 
+import br.com.ehmf.webframework.annotations.WebframeworkDeleteMethod;
 import br.com.ehmf.webframework.annotations.WebframeworkGetMethod;
 import br.com.ehmf.webframework.annotations.WebframeworkPostMethod;
 import br.com.ehmf.webframework.annotations.WebframeworkPutMethod;
@@ -146,6 +147,18 @@ public class WebFrameworkWebApplication {
 						.equals("br.com.ehmf.webframework.annotations.WebframeworkPutMethod")) {
 					httpMethod = "PUT";
 					path = ((WebframeworkPutMethod)annotation).value();
+					
+					//verificar se existe parâmetro no path.
+					MethodParam methodParam = WebFrameworkUtil.convertURI2MethodParam(path);
+					if(methodParam != null) {
+						path = methodParam.getMethod();
+						if(methodParam.getParam() != null)
+							parameter = methodParam.getParam(); 
+					}
+				}else if(annotation.annotationType().getName()
+						.equals("br.com.ehmf.webframework.annotations.WebframeworkDeleteMethod")) {
+					httpMethod = "DELETE";
+					path = ((WebframeworkDeleteMethod)annotation).value();
 					
 					//verificar se existe parâmetro no path.
 					MethodParam methodParam = WebFrameworkUtil.convertURI2MethodParam(path);
